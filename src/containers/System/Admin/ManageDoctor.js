@@ -133,8 +133,6 @@ class ManageDoctor extends Component {
         })
     }
 
-
-
     handleChangeSelect = async (selectedOption) => {
         this.setState({ selectedOption });
         let { listPayment, listPrice, listProvince } = this.state
@@ -227,6 +225,7 @@ class ManageDoctor extends Component {
                             value={this.state.selectedOption}
                             onChange={this.handleChangeSelect}
                             options={this.state.listDoctors}
+                            placeholder={'Chọn bác sĩ'}
                         />
                     </div>
 
@@ -250,6 +249,7 @@ class ManageDoctor extends Component {
                             onChange={this.handleChangeSelectDoctorInfor}
                             options={this.state.listPrice}
                             name='selectedPrice'
+                            placeholder={"Chọn giá"}
                         />
                     </div>
                     <div className='col-4 form-group'>
@@ -259,6 +259,7 @@ class ManageDoctor extends Component {
                             onChange={this.handleChangeSelectDoctorInfor}
                             options={this.state.listPayment}
                             name='selectedPayment'
+                            placeholder={'Chọn phương thức'}
                         />
                     </div>
                     <div className='col-4 form-group'>
@@ -268,6 +269,7 @@ class ManageDoctor extends Component {
                             onChange={this.handleChangeSelectDoctorInfor}
                             options={this.state.listProvince}
                             name='selectedProvince'
+                            placeholder={'Chọn tỉnh thành'}
                         />
                     </div>
                     <div className='col-4 form-group'>
@@ -325,8 +327,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         fetchAllDoctors: () => dispatch(actions.fetchAllDoctors()),
+        getAllRequiredDoctorInfor: () => dispatch(actions.getRequiredDoctorInfor()),
         saveDetailDoctor: (data) => dispatch(actions.saveDetailDoctor(data)),
-        getAllRequiredDoctorInfor: () => dispatch(actions.getRequiredDoctorInfor())
     };
 };
 
