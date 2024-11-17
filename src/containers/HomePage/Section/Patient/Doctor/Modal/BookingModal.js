@@ -50,14 +50,12 @@ class BookingModal extends Component {
 
     async componentDidUpdate(prevProps, prevState, snapshot) {
         if (this.props.genders !== prevProps.genders) {
-
             this.setState({
                 genders: this.buildDataGender(this.props.genders)
             })
         }
         if (this.props.dataTime !== prevProps.dataTime) {
             if (this.props.dataTime && !_.isEmpty(this.props.dataTime)) {
-                console.log('check timetype: ', this.props.dataTime)
                 let doctorId = this.props.dataTime.doctorId;
                 let timeType = this.props.dataTime.timeType;
                 this.setState({
@@ -101,10 +99,10 @@ class BookingModal extends Component {
             timeType: this.state.timeType,
         })
         if (res && res.errCode === 0) {
-            toast.success('Booking a new appointment succeed!')
+            toast.success('Đặt lịch thành công!')
             this.props.closeBookingModal();
         } else {
-            toast.error('Booking a new appointment error!')
+            toast.error('Đặt lịch thất bại!')
         }
     }
 
@@ -114,7 +112,6 @@ class BookingModal extends Component {
         if (dataTime && !_.isEmpty(dataTime)) {
             doctorId = dataTime.doctorId
         }
-        console.log('state ', this.state)
         return (
 
             <Modal
