@@ -5,6 +5,7 @@ import { getProfileDoctorById } from '../../../../../services/userService'
 import { LANGUAGES } from '../../../../../utils';
 import _ from 'lodash';
 import moment from 'moment';
+import NumberFormat from 'react-number-format';
 
 class ProfileDoctor extends Component {
 
@@ -100,8 +101,14 @@ class ProfileDoctor extends Component {
 
                 </div>
                 <div className='price'>Giá khám:
-                    {dataProfile && dataProfile.Doctor_Infor && language === LANGUAGES.VI ?
-                        dataProfile.Doctor_Infor.priceTypeData.valueVi : ''
+                    {dataProfile && dataProfile.Doctor_Infor && language === LANGUAGES.VI &&
+                        <NumberFormat
+                            className='currency'
+                            value={dataProfile.Doctor_Infor.priceTypeData.valueVi}
+                            displayType={'text'}
+                            thousandSeparator={true}
+                            suffix={'VND'}
+                        />
                     }
                 </div>
             </div>

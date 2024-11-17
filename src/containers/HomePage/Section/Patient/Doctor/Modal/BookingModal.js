@@ -135,7 +135,6 @@ class BookingModal extends Component {
                         </span>
                     </div>
                     <div className='booking-modal-body'>
-                        {/* {JSON.stringify(dataTime)} */}
                         <div className='doctor-infor'>
                             <ProfileDoctor
                                 doctorId={doctorId}
@@ -143,9 +142,7 @@ class BookingModal extends Component {
                                 dataTime={dataTime}
                             />
                         </div>
-                        <div className='price'>
 
-                        </div>
                         <div className='row'>
                             <div className='col-6 form-group'>
                                 <label>Họ và Tên: </label>
