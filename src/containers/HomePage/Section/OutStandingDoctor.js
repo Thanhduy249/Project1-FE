@@ -4,7 +4,8 @@ import { FormattedMessage } from 'react-intl';
 import Slider from 'react-slick';
 import * as actions from '../../../store/actions';
 import { LANGUAGES } from '../../../utils';
-import { withRouter } from 'react-router'
+import { withRouter } from 'react-router';
+
 class OutStandingDoctor extends Component {
 
     constructor(props) {

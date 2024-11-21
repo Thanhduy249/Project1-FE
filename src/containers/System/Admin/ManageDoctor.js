@@ -33,8 +33,8 @@ class ManageDoctor extends Component {
             selectedPrice: '',
             selectedPayment: '',
             selectedProvince: '',
-            selectClinic: '',
-            selectSpecialty: '',
+            selectedClinic: '',
+            selectedSpecialty: '',
             nameClinic: '',
             addressClinic: '',
             note: '',
@@ -83,6 +83,15 @@ class ManageDoctor extends Component {
                     result.push(object)
                 })
             }
+
+            if (type === 'SPECIALTY') {
+                inputData.map((item, index) => {
+                    let object = {};
+                    object.label = item.name;
+                    object.value = item.id;
+                    result.push(object);
+                })
+            }
         }
         return result;
     }
@@ -125,8 +134,8 @@ class ManageDoctor extends Component {
     }
 
     handleSaveContentMarkdown = () => {
-
         let { hasOldData } = this.state
+
         this.props.saveDetailDoctor({
             contentHTML: this.state.contentHTML,
             contentMarkdown: this.state.contentMarkdown,
@@ -140,6 +149,8 @@ class ManageDoctor extends Component {
             nameClinic: this.state.nameClinic,
             addressClinic: this.state.addressClinic,
             note: this.state.note,
+            clinicId: this.state.selectedClinic && this.state.selectedClinic.value ? this.state.selectedClinic.value : '',
+            specialtyId: this.state.selectedSpecialty.value
         })
     }
 
@@ -218,7 +229,7 @@ class ManageDoctor extends Component {
     }
 
     render() {
-        let { hasOldData } = this.state;
+        let { hasOldData, listSpecialty } = this.state;
         console.log('check: ', this.state)
         return (
 
@@ -307,11 +318,23 @@ class ManageDoctor extends Component {
                 <div className='row'>
                     <div className='col-4 form-group'>
                         <label>Chọn chuyên khoa</label>
-                        <input className='form-control' />
+                        <Select
+                            value={this.state.selectedSpecialty}
+                            onChange={this.handleChangeSelectDoctorInfor}
+                            options={this.state.listSpecialty}
+                            placeholder={'Chọn chuyên khoa'}
+                            name="selectedSpecialty"
+                        />
                     </div>
                     <div className='col-4 form-group'>
                         <label>Chọn phòng khám</label>
-                        <input className='form-control' />
+                        <Select
+                            value={this.state.selectedClinic}
+                            onChange={this.handleChangeSelectDoctorInfor}
+                            options={this.state.listClinic}
+                            placeholder={'Chọn phòng khám'}
+                            name="selectedClinic"
+                        />
                     </div>
                 </div>
 
