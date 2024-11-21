@@ -93,8 +93,8 @@ class ManageSchedule extends Component {
         }
     }
 
-    handleSaveShedule = async () => {
-        let { rangeTime, selectedDoctor, currentDate } = this.state
+    handleSaveSchedule = async () => {
+        let { rangeTime, selectedDoctor, currentDate } = this.state;
         let result = []
         if (!currentDate) {
             toast.error('Invalid Selected Date!');
@@ -113,7 +113,7 @@ class ManageSchedule extends Component {
         if (rangeTime && rangeTime.length > 0) {
             let selectedTime = rangeTime.filter(item => item.isSelected === true);
             if (selectedTime && selectedTime.length > 0) {
-                selectedTime.map(schedule => {
+                selectedTime.map((schedule, index) => {
                     let object = {};
                     object.doctorId = selectedDoctor.value;
                     object.date = formatedDate;
@@ -184,7 +184,7 @@ class ManageSchedule extends Component {
                         <div className='col-12'>
                             <button
                                 className='btn btn-primary btn-save-schedule'
-                                onClick={() => this.handleSaveShedule()}
+                                onClick={() => this.handleSaveSchedule()}
                             >
                                 Lưu thông tin
                             </button>

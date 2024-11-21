@@ -42,18 +42,17 @@ class ProfileDoctor extends Component {
 
     renderTimeBooking = (dataTime) => {
         let { language } = this.props;
-        let time = language === LANGUAGES.VI ? dataTime.timeTypeData.valueVi : dataTime.timeTypeData.valueEn;
-
         if (dataTime && !_.isEmpty(dataTime)) {
+            let time = language === LANGUAGES.VI ?
+                dataTime.timeTypeData.valueVi : dataTime.timeTypeData.valueEn;
 
             let date = language === LANGUAGES.VI ?
-                moment.unix(+dataTime.date / 1000).format('dddd - DD/MM/YYYY')
+                moment.unix(+dataTime.date / 1000).format('dddd -DD/MM/YYYY')
                 :
-                moment.unix(+dataTime.date / 1000).format('ddd - MM/DD/YYYY')
+                moment.unix(+dataTime.date / 1000).locale('en').format('ddd - MM/DD/YYYY')
             return (
                 <>
                     <div>{time} - {date}</div>
-                    {/* <div>Miễn phí đặt</div> */}
                 </>
             )
         }

@@ -29,6 +29,8 @@ class DoctorSchedule extends Component {
 
     }
 
+    capital
+
     getArrDays = (language) => {
         let allDays = []
         for (let i = 0; i < 7; i++) {
@@ -41,6 +43,9 @@ class DoctorSchedule extends Component {
             object.value = moment(new Date()).add(i, 'days').startOf('day').valueOf();
             allDays.push(object);
         }
+        this.setState({
+            allDays: allDays,
+        })
 
         return allDays;
     }
