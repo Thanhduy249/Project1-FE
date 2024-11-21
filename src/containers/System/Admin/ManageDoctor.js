@@ -27,12 +27,19 @@ class ManageDoctor extends Component {
             listPrice: [],
             listPayment: [],
             listProvince: [],
+            listClinic: [],
+            listSpecialty: [],
+
             selectedPrice: '',
             selectedPayment: '',
             selectedProvince: '',
+            selectClinic: '',
+            selectSpecialty: '',
             nameClinic: '',
             addressClinic: '',
             note: '',
+            clinicId: '',
+            specialtyId: ''
         }
     }
 
@@ -94,15 +101,18 @@ class ManageDoctor extends Component {
             })
         }
         if (prevProps.allRequiredDoctorInfor !== this.props.allRequiredDoctorInfor) {
-            let { resPayment, resPrice, resProvince } = this.props.allRequiredDoctorInfor;
+            let { resPayment, resPrice, resProvince, resSpecialty } = this.props.allRequiredDoctorInfor;
 
             let dataSelectPrice = this.buildDataInputSelect(resPrice, 'PRICE');
             let dataSelectPayment = this.buildDataInputSelect(resPayment, 'PAYMENT');
             let dataSelectProvince = this.buildDataInputSelect(resProvince, 'PROVINCE');
+            let dataSelectSpecialty = this.buildDataInputSelect(resSpecialty, 'SPECIALTY')
+
             this.setState({
                 listPrice: dataSelectPrice,
                 listPayment: dataSelectPayment,
-                listProvince: dataSelectProvince
+                listProvince: dataSelectProvince,
+                listSpecialty: dataSelectSpecialty
             })
         }
     }
@@ -207,7 +217,6 @@ class ManageDoctor extends Component {
         })
     }
 
-
     render() {
         let { hasOldData } = this.state;
         console.log('check: ', this.state)
@@ -295,14 +304,26 @@ class ManageDoctor extends Component {
                     </div>
                 </div>
 
+                <div className='row'>
+                    <div className='col-4 form-group'>
+                        <label>Chọn chuyên khoa</label>
+                        <input className='form-control' />
+                    </div>
+                    <div className='col-4 form-group'>
+                        <label>Chọn phòng khám</label>
+                        <input className='form-control' />
+                    </div>
+                </div>
+
                 <div className='manage-doctor-editor'>
                     <MdEditor
-                        style={{ height: '500px' }}
+                        style={{ height: '3s00px' }}
                         renderHTML={text => mdParser.render(text)}
                         onChange={this.handleEditorChange}
                         value={this.state.contentMarkdown}
                     />
                 </div>
+
                 <button
                     className={hasOldData === true ? 'save-content-doctor' : 'create-content-doctor'}
                     onClick={() => this.handleSaveContentMarkdown()}>
