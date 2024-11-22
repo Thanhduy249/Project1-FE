@@ -8,7 +8,7 @@ import ProfileDoctor from '../Doctor/ProfileDoctor';
 import moment from 'moment';
 import { LANGUAGES } from '../../../../../utils';
 import _, { times } from 'lodash';
-
+import { getAllDetailSpecialtyById, getAllCodeService } from '../../../../../services/userService'
 
 
 class DetailSpecialty extends Component {
@@ -16,44 +16,73 @@ class DetailSpecialty extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            arrDoctorId: [11, 73, 74]
+            arrDoctorId: [],
+            dataDetailSpecialty: {},
+            listProvince: []
         }
     }
 
     async componentDidMount() {
+        if (this.props.match && this.props.match.params && this.props.match.params.id) {
+            let id = this.props.match.params.id;
+
+            let res = await getAllDetailSpecialtyById({
+                id: id,
+                location: 'ALL'
+            });
+
+            let resProvince = await getAllCodeService('PROVINCE');
+
+            if (res && res.errCode === 0 && resProvince && resProvince.errCode === 0) {
+                let data = res.data;
+                let arrDoctorId = [];
+                if (data && !_.isEmpty(res.data)) {
+                    let arr = data.doctorSpecialty;
+                    if (arr && arr.length > 0) {
+                        arr.map(item => {
+                            arrDoctorId.push(item.doctorId)
+                        })
+                    }
+                }
+                this.setState({
+                    dataDetailSpecialty: res.data,
+                    arrDoctorId: arrDoctorId,
+                    listProvince: resProvince.data
+                })
+            }
+        }
     }
 
     async componentDidUpdate(prevProps, prevState, snapshot) {
     }
 
-    // renderTimeBooking = (dataTime) => {
-    //     let { language } = this.props;
-    //     let time = language === LANGUAGES.VI ? dataTime.timeTypeData.valueVi : dataTime.timeTypeData.valueEn;
-
-    //     if (dataTime && !_.isEmpty(dataTime)) {
-
-    //         let date = language === LANGUAGES.VI ?
-    //             moment.unix(+dataTime.date / 1000).format('dddd - DD/MM/YYYY')
-    //             :
-    //             moment.unix(+dataTime.date / 1000).format('ddd - MM/DD/YYYY')
-    //         return (
-    //             <>
-    //                 <div>{time} - {date}</div>
-    //                 {/* <div>Miễn phí đặt</div> */}
-    //             </>
-    //         )
-    //     }
-    //     return <></>
-    // }
+    handleOnChangeSelect = (event => {
+        console.log('Thanhduy check onchange: ', event.target.value)
+    })
 
     render() {
-        let { arrDoctorId } = this.state;
+        let { arrDoctorId, dataDetailSpecialty, listProvince } = this.state;
+        console.log('Thanhduy check state: ', this.state)
         return (
             <div className='detail-specialty-container'>
                 <HomeHeader />
                 <div className='detail-specialty-body'>
                     <div className='description-specialty'>
+                        {dataDetailSpecialty && !_.isEmpty(dataDetailSpecialty)
+                            &&
+                            < div dangerouslySetInnerHTML={{ __html: dataDetailSpecialty.descriptionHTML }}>
 
+                            </div>
+                        }
+                    </div>
+                    <div className='search-sp-doctor'>
+                        <select onChange={(event) => this.handleOnChangeSelect(event)}>
+                            {listProvince && listProvince.length > 0 &&
+                                listProvince.map((item, index) => {
+                                    return (<option key={index} value={item.keyMap}>{item.valueVi}</option>)
+                                })
+                            }
+                        </select>
                     </div>
                     {arrDoctorId && arrDoctorId.length > 0 &&
                         arrDoctorId.map((item, index) => {
@@ -84,7 +113,7 @@ class DetailSpecialty extends Component {
                         })}
                 </div>
 
-            </div>
+            </div >
         )
     }
 }
