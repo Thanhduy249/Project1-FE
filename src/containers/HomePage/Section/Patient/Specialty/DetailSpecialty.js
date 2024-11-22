@@ -7,7 +7,7 @@ import DoctorExtraInfor from '../Doctor/DoctorExtraInfor';
 import ProfileDoctor from '../Doctor/ProfileDoctor';
 import moment from 'moment';
 import { LANGUAGES } from '../../../../../utils';
-import _, { times } from 'lodash';
+import _, { create, times } from 'lodash';
 import { getAllDetailSpecialtyById, getAllCodeService } from '../../../../../services/userService'
 
 
@@ -44,10 +44,23 @@ class DetailSpecialty extends Component {
                         })
                     }
                 }
+
+                let dataProvince = resProvince.data;
+
+                console.log('thanhduy check res: ', dataProvince)
+                if (dataProvince && dataProvince.length > 0) {
+                    dataProvince.unshift({
+                        createdAt: null,
+                        keyMap: 'ALL',
+                        type: "PROVINCE",
+                        valueVi: "Toàn quốc",
+                    })
+                }
+
                 this.setState({
                     dataDetailSpecialty: res.data,
                     arrDoctorId: arrDoctorId,
-                    listProvince: resProvince.data
+                    listProvince: dataProvince ? dataProvince : []
                 })
             }
         }
@@ -56,13 +69,38 @@ class DetailSpecialty extends Component {
     async componentDidUpdate(prevProps, prevState, snapshot) {
     }
 
-    handleOnChangeSelect = (event => {
-        console.log('Thanhduy check onchange: ', event.target.value)
-    })
+    handleOnChangeSelect = async (event) => {
+        if (this.props.match && this.props.match.params && this.props.match.params.id) {
+            let id = this.props.match.params.id;
+            let location = event.target.value;
+
+            let res = await getAllDetailSpecialtyById({
+                id: id,
+                location: location
+            });
+
+            if (res && res.errCode === 0) {
+                let data = res.data;
+                let arrDoctorId = [];
+                if (data && !_.isEmpty(res.data)) {
+                    let arr = data.doctorSpecialty;
+                    if (arr && arr.length > 0) {
+                        arr.map(item => {
+                            arrDoctorId.push(item.doctorId)
+                        })
+                    }
+                }
+
+                this.setState({
+                    dataDetailSpecialty: res.data,
+                    arrDoctorId: arrDoctorId,
+                })
+            }
+        }
+    }
 
     render() {
         let { arrDoctorId, dataDetailSpecialty, listProvince } = this.state;
-        console.log('Thanhduy check state: ', this.state)
         return (
             <div className='detail-specialty-container'>
                 <HomeHeader />
@@ -93,6 +131,8 @@ class DetailSpecialty extends Component {
                                             <ProfileDoctor
                                                 doctorId={item}
                                                 isShowDescriptionDoctor={true}
+                                                isShowLinkDetail={true}
+                                                isShowPrice={false}
                                             />
                                         </div>
                                     </div>
