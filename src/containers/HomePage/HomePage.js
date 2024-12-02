@@ -7,7 +7,7 @@ import OutStandingDoctor from './Section/OutStandingDoctor';
 import HandBook from './Section/HandBook';
 import About from './Section/About';
 import HomeFooter from './HomeFooter';
-import './HomePage.scss' ;
+import './HomePage.scss';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -23,13 +23,13 @@ class HomePage extends Component {
         };
         return (
             <div>
-                <HomeHeader isShowBanner={true}/>
-                <Specialty settings={settings}/>
-                <MedicalFacility settings={settings}/>
-                <OutStandingDoctor settings={settings}/>
-                <HandBook settings={settings}/>
-                <About/>
-                <HomeFooter/>
+                <HomeHeader isShowBanner={true} />
+                <Specialty settings={settings} />
+                <MedicalFacility settings={settings} />
+                <OutStandingDoctor settings={settings} />
+
+                <About />
+                <HomeFooter />
             </div>
         );
     }
